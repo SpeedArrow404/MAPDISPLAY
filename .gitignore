@@ -3,3 +3,10 @@
 ################################################################################
 
 /.vs/MAPDISPLAY/v15
+/MAPDISPLAY/Debug
+/MAPDISPLAY/x64/Debug
+*.vcxproj
+*.user
+*.filters
+/x64/Debug
+*.sln
