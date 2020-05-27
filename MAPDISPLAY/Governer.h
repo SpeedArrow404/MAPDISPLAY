@@ -22,7 +22,7 @@ class Dot{
 		vector<Dot*> neighbours;
 		bool type;
 		bool visited;
-		
+	
 	Dot(Coords* _coords,bool _type,int _id);
 	
 	bool AddNeighbour(Dot* _newNeighbour);

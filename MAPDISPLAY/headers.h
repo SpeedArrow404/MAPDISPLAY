@@ -9,8 +9,10 @@
 #include "CommonFunctions.h"
 #include "Governer.h"
 #include "FileWorker.h"
+#include "NodeController.h"
 #include "Controller.h"
 #include "JsonNode.h"
+
 
 
 #endif //_HEADERS_H_

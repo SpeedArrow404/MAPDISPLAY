@@ -14,7 +14,7 @@ void Coords::set(int _x,int _y,int _z){
 	this->z=_z;
 }
 
-Dot::Dot(Coords* _coords, bool _type,int _id){
+ Dot::Dot(Coords* _coords, bool _type,int _id){
 	this->coords=_coords;
 	this->type=_type;
 	this->id=_id;
@@ -38,7 +38,7 @@ vector<Dot*> Dot::RecursiveSeekWay(Dot* _B){
 	float max;
 	float min;
 	int maxI; //maxI и minI отвечают за позицию в вескторе neighbour
-	int minI;
+	int minI=-1;
 	int x1;	// х1 у1 - Координаты текущей точки
 	int y1;
 	int x2; // х2 у2 - Координаты конечной точки
@@ -63,12 +63,13 @@ vector<Dot*> Dot::RecursiveSeekWay(Dot* _B){
 	
 	while (unvisitedNeighbours) {
 		unvisitedNeighbours = false;
-		for (int i = 0; i <= this->neighbours.size(); i++) { //перебор соседей (если сосед не почещен и расстояние меньше текущего минимума)
+		min = max;
+		for (int i = 0; i < this->neighbours.size(); i++) { //перебор соседей (если сосед не почещен и расстояние меньше текущего минимума)
 			if (this->neighbours[i]->visited == false) unvisitedNeighbours = true; //Проверка, остились ли еще не проверенные соседи
 			
 			x1 = this->neighbours[i]->coords->x;
 			y1 = this->neighbours[i]->coords->y;
-			if ((this->neighbours[i]->visited == false) && (SquareVectorLength(x1, y1, x2, y2) < min)) {
+			if ((this->neighbours[i]->visited == false) && (SquareVectorLength(x1, y1, x2, y2) <= min)) {
 				minI = i;
 				min = i;
 				this->neighbours[i]->visited = true;
@@ -76,11 +77,16 @@ vector<Dot*> Dot::RecursiveSeekWay(Dot* _B){
 		}
 
 		if (unvisitedNeighbours == false) break;
+		if (minI == -1) {
+			minI = minI;
+		}
+		if (minI != -1) {
 
-		ret = this->neighbours[minI]->RecursiveSeekWay(_B);
-		if (ret.size() > 0) {
-			ret.push_back(this);
-			return ret;
+			ret = this->neighbours[minI]->RecursiveSeekWay(_B);
+			if (ret.size() > 0) {
+				ret.push_back(this);
+				return ret;
+			}
 		}
 	}
 	return vector<Dot*>();
@@ -101,13 +107,12 @@ vector<Dot*> Governer::SeekWay(int _from,int _to){
 		
 		if (this->dots[i]->id == _from) {
 			dotA = this->dots[i];
-			break;
 		}
 
 		if (this->dots[i]->id == _to) {
 			dotB = this->dots[i];
-			break;
 		}
+		if (dotA != nullptr && dotB != nullptr) break;
 	}
 
 
@@ -120,9 +125,9 @@ vector<Dot*> Governer::SeekWay(int _from,int _to){
 }
 
 bool Governer::AddNeighbours(int _id, vector<int> Neighbours) {
-	int dot;
+	int dot=0;
 	for (int i = 0; i < this->dots.size();i++) {
-		if (this->dots.size() == _id) {
+		if (this->dots[i]->id == _id) {
 			dot = i;
 			break;
 		}

@@ -1,4 +1,5 @@
 #include "NodeController.h"
+#pragma warning(disable : 4996)
 
 Document* NodeController(char* _path) {
 	
